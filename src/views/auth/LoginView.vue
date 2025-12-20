@@ -29,10 +29,10 @@ import { Label } from '@/components/ui/label'
           </div>
           <Button type="submit" class="w-full"> Login </Button>
         </div>
-        <div class="mt-4 text-center text-sm">
+        <!-- <div class="mt-4 text-center text-sm">
           Don't have an account?
           <router-link to="/register" class="underline"> Sign up </router-link>
-        </div>
+        </div> -->
       </CardContent>
     </Card>
   </div>
