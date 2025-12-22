@@ -4,21 +4,25 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/s
 import { Separator } from '@/components/ui/separator'
 import BreadcrumbPanel from '@/components/BreadcrumbPanel.vue'
 import { useRoute } from 'vue-router'
+import { computed } from 'vue'
 
 const route = useRoute()
-const currentRouteName = route.name.toString()
 
-const routeParts = currentRouteName.split('.')
-const collectCurrentRouteName = routeParts.map((item, index) => {
-  const urlParts = routeParts.slice(0, index + 1)
-  const url = '/' + urlParts.join('/')
+const collectCurrentRouteName = computed(() => {
+  const currentRouteName = route.name.toString()
+  const routeParts = currentRouteName.split('.')
 
-  return {
-    name:
-      item.replace('admin', 'home').charAt(0).toUpperCase() +
-      item.replace('admin', 'home').slice(1),
-    url: url,
-  }
+  return routeParts.map((item, index) => {
+    const urlParts = routeParts.slice(0, index + 1)
+    const url = '/' + urlParts.join('/')
+
+    return {
+      name:
+        item.replace('admin', 'home').charAt(0).toUpperCase() +
+        item.replace('admin', 'home').slice(1),
+      url: url,
+    }
+  })
 })
 </script>
 
