@@ -46,10 +46,10 @@ defineProps({
                 <SidebarMenuSub>
                   <SidebarMenuSubItem v-for="subItem in item.children" :key="subItem.title">
                     <SidebarMenuSubButton as-child :is-active="subItem.isActive">
-                      <a :href="subItem.url">
+                      <router-link :to="subItem.url">
                         <component :is="subItem.icon" v-if="subItem.icon" />
                         <span>{{ subItem.title }}</span>
-                      </a>
+                      </router-link>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>
                 </SidebarMenuSub>
@@ -60,10 +60,10 @@ defineProps({
           <!-- Single Item -->
           <SidebarMenuItem v-else>
             <SidebarMenuButton as-child :tooltip="item.title" :is-active="item.isActive">
-              <a :href="item.url">
+              <router-link :to="item.url">
                 <component :is="item.icon" v-if="item.icon" />
                 <span>{{ item.title }}</span>
-              </a>
+              </router-link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </template>
