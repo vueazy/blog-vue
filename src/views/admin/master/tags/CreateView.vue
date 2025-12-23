@@ -11,6 +11,9 @@ import { useForm, Field as VeeField } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { z } from 'zod'
 import FieldError from '@/components/ui/field/FieldError.vue'
+import Spinner from '@/components/ui/spinner/Spinner.vue'
+import { ref } from 'vue'
+import ButtonSubmit from '@/components/ButtonSubmit.vue'
 
 const formSchema = toTypedSchema(
   z.object({
@@ -27,8 +30,11 @@ const { handleSubmit, resetForm } = useForm({
   },
 })
 
+const isLoading = ref(false)
+
 const onSubmit = handleSubmit((data) => {
   console.log(data)
+  isLoading.value = true
 
   resetForm({
     values: {
@@ -36,6 +42,10 @@ const onSubmit = handleSubmit((data) => {
       slug: '',
     },
   })
+
+  setTimeout(() => {
+    isLoading.value = false
+  }, 1000)
 })
 </script>
 
@@ -73,7 +83,7 @@ const onSubmit = handleSubmit((data) => {
             <ArrowLeft />
             Back
           </ButtonLink>
-          <Button type="submit" class="cursor-pointer">Submit</Button>
+          <ButtonSubmit :is-loading="isLoading" label="Submit" />
         </div>
       </form>
     </CardContent>
