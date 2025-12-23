@@ -10,8 +10,6 @@ import FieldLabel from '@/components/ui/field/FieldLabel.vue'
 import { useForm, Field as VeeField } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { z } from 'zod'
-import { toast } from 'vue-sonner'
-import { h } from 'vue'
 import FieldError from '@/components/ui/field/FieldError.vue'
 
 const formSchema = toTypedSchema(
