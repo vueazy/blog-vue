@@ -1,12 +1,13 @@
 <script setup>
-import Datatable from '@/components/Datatable.vue'
 import { PlusIcon } from 'lucide-vue-next'
-import { Button } from '@/components/ui/button'
+import { useTagsStore } from '@/stores/TagsStore'
+
+import Datatable from '@/components/Datatable.vue'
 import Card from '@/components/ui/card/Card.vue'
 import CardHeader from '@/components/ui/card/CardHeader.vue'
 import CardContent from '@/components/ui/card/CardContent.vue'
 import CardTitle from '@/components/ui/card/CardTitle.vue'
-import { useTagsStore } from '@/stores/TagsStore'
+import ButtonLink from '@/components/ButtonLink.vue'
 
 const tagsStore = useTagsStore()
 tagsStore.fetchTags()
@@ -18,10 +19,10 @@ tagsStore.fetchDatatableColumns()
     <CardHeader>
       <CardTitle class="flex items-center justify-between">
         <span>Tags Data</span>
-        <Button variant="outline">
+        <ButtonLink to="/admin/master/tags/create" variant="outline">
           <PlusIcon />
           Create Tags
-        </Button>
+        </ButtonLink>
       </CardTitle>
     </CardHeader>
     <CardContent>

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import AdminSidebarLayout from '@/layouts/AdminSidebarLayout.vue'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { Separator } from '@/components/ui/separator'

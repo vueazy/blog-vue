@@ -12,5 +12,9 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
+    dedupe: ['vue', 'vee-validate'],
+  },
+  optimizeDeps: {
+    include: ['vee-validate', '@vee-validate/zod'],
   },
 })
