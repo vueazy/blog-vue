@@ -1,7 +1,5 @@
-import axios from 'axios'
+import apiClient from '@/services/api'
 import { defineStore } from 'pinia'
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 export let useAuthStore = defineStore('auth', {
   state() {
@@ -17,7 +15,7 @@ export let useAuthStore = defineStore('auth', {
       this.processing = true
 
       try {
-        const response = await axios.post(`${API_BASE_URL}/auth/login`, credential)
+        const response = await apiClient.post('/auth/login', credential)
 
         localStorage.setItem('auth', JSON.stringify(response.data.data))
 
@@ -43,10 +41,17 @@ export let useAuthStore = defineStore('auth', {
       return this.$state.user
     },
 
-    logout() {
-      localStorage.removeItem('auth')
-      this.$state.user = []
-      this.$state.access_token = ''
+    async logout() {
+      try {
+        await apiClient.get('/auth/logout')
+
+        localStorage.removeItem('auth')
+        this.$state.user = []
+        this.$state.access_token = ''
+      } catch (error) {
+        console.error('Logout error:', error)
+        throw error
+      }
     },
   },
 })

@@ -1,6 +1,6 @@
 <script setup>
 import { PlusIcon } from 'lucide-vue-next'
-import { useTagsStore } from '@/stores/TagsStore'
+import { useTagsStore } from '@/stores/master/TagsStore'
 
 import Datatable from '@/components/Datatable.vue'
 import Card from '@/components/ui/card/Card.vue'

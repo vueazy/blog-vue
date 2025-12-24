@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { ArrowUpDown } from 'lucide-vue-next'
 import { Edit } from 'lucide-vue-next'
 import { Trash2 } from 'lucide-vue-next'
+import apiClient from '@/services/api'
 
 export let useTagsStore = defineStore('tags', {
   state() {
@@ -14,11 +15,13 @@ export let useTagsStore = defineStore('tags', {
   },
 
   actions: {
-    fetchTags() {
-      this.tags = [
-        { id: '1', name: 'Tag 1', slug: 'tag-1', created_at: '2025-12-08 04:20:04' },
-        { id: '2', name: 'Tag 2', slug: 'tag-2', created_at: '2025-12-07 04:20:04' },
-      ]
+    async fetchTags(current_page) {
+      const response = await apiClient.get('/tag', {
+        params: {
+          page: current_page,
+        },
+      })
+      this.tags = response.data.data
     },
 
     fetchDatatableColumns() {
@@ -41,11 +44,6 @@ export let useTagsStore = defineStore('tags', {
           accessorKey: 'slug',
           header: 'Slug',
           cell: ({ row }) => h('div', { class: 'lowercase' }, row.getValue('slug')),
-        },
-        {
-          accessorKey: 'created_at',
-          header: 'Created At',
-          cell: ({ row }) => h('div', { class: 'capitalize' }, row.getValue('created_at')),
         },
         {
           accessorKey: 'action',

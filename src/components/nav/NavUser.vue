@@ -40,9 +40,9 @@ const { isMobile } = useSidebar()
 const authStore = useAuthStore()
 const router = useRouter()
 
-const logout = () => {
-  authStore.logout()
-  router.push('/login')
+const logout = async () => {
+  await authStore.logout()
+  await router.push('/login')
   toast('Logout successful')
 }
 </script>
