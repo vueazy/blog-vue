@@ -12,11 +12,16 @@ import { z } from 'zod'
 import FieldError from '@/components/ui/field/FieldError.vue'
 import { ref } from 'vue'
 import ButtonSubmit from '@/components/ButtonSubmit.vue'
+import { useTagsStore } from '@/stores/master/TagsStore'
+import { useRoute } from 'vue-router'
+import { toast } from 'vue-sonner'
+
+const tagsStore = useTagsStore()
+const router = useRoute()
 
 const formSchema = toTypedSchema(
   z.object({
     name: z.string().min(3, 'Name must be at least 3 characters long'),
-    slug: z.string().min(3, 'Slug must be at least 3 characters long'),
   }),
 )
 
@@ -33,16 +38,25 @@ const isLoading = ref(false)
 const onSubmit = handleSubmit((data) => {
   isLoading.value = true
 
-  resetForm({
-    values: {
-      name: '',
-      slug: '',
-    },
-  })
+  try {
+    tagsStore.createTags(data)
 
-  setTimeout(() => {
     isLoading.value = false
-  }, 1000)
+
+    resetForm({
+      values: {
+        name: '',
+        slug: '',
+      },
+    })
+
+    router.push('/admin/master/tags')
+
+    toast('Tags created successfully')
+  } catch (error) {
+    console.log(error)
+    toast(error.response.statusText)
+  }
 })
 </script>
 
@@ -55,21 +69,12 @@ const onSubmit = handleSubmit((data) => {
     </CardHeader>
     <CardContent>
       <form v-on:submit="onSubmit">
-        <div class="grid grid-cols-2 gap-4 mb-5">
+        <div class="mb-5">
           <FieldGroup>
             <VeeField v-slot="{ field, errors }" name="name">
               <Field :data-invalid="!!errors.length">
                 <FieldLabel for="name">Name</FieldLabel>
                 <Input id="name" type="text" v-bind="field" :aria-invalid="!!errors.length" />
-                <FieldError v-if="errors.length" :errors="errors" />
-              </Field>
-            </VeeField>
-          </FieldGroup>
-          <FieldGroup>
-            <VeeField v-slot="{ field, errors }" name="slug">
-              <Field :data-invalid="!!errors.length">
-                <FieldLabel for="slug">Slug</FieldLabel>
-                <Input id="slug" type="text" v-bind="field" :aria-invalid="!!errors.length" />
                 <FieldError v-if="errors.length" :errors="errors" />
               </Field>
             </VeeField>

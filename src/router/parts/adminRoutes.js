@@ -23,6 +23,6 @@ export const adminRoutes = [
     name: 'admin.master.tags.edit',
     path: '/admin/master/tags/:id/edit',
     component: () => import('@/views/admin/master/tags/EditView.vue'),
-    meta: { layout: 'admin', requiresAuth: true },
+    meta: { layout: 'admin', requiresAuth: true, params: { id: 'id' } },
   },
 ]

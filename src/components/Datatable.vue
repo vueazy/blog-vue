@@ -89,7 +89,7 @@ const table = useVueTable({
         :model-value="globalFilter"
         @update:model-value="globalFilter = $event"
       />
-      <DropdownMenu>
+      <!-- <DropdownMenu>
         <DropdownMenuTrigger as-child>
           <Button variant="outline" class="ml-auto">
             Columns <ChevronDown class="ml-2 h-4 w-4" />
@@ -106,7 +106,7 @@ const table = useVueTable({
             {{ column.id }}
           </DropdownMenuCheckboxItem>
         </DropdownMenuContent>
-      </DropdownMenu>
+      </DropdownMenu> -->
     </div>
     <div class="rounded-md border">
       <Table>
