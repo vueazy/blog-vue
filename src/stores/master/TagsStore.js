@@ -6,6 +6,18 @@ import { Edit } from 'lucide-vue-next'
 import { Trash2 } from 'lucide-vue-next'
 import apiClient from '@/services/api'
 import router from '@/router'
+import { toast } from 'vue-sonner'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 
 export let useTagsStore = defineStore('tags', {
   state() {
@@ -97,13 +109,54 @@ export let useTagsStore = defineStore('tags', {
                 () => [h(Edit)],
               ),
               h(
-                Button,
+                AlertDialog,
+                {},
                 {
-                  variant: 'destructive',
-                  onClick: () => console.log(row.original.id),
-                  class: 'cursor-pointer',
+                  default: () => [
+                    h(AlertDialogTrigger, { asChild: true }, () => [
+                      h(
+                        Button,
+                        {
+                          variant: 'destructive',
+                          class: 'cursor-pointer',
+                        },
+                        () => [h(Trash2)],
+                      ),
+                    ]),
+                    h(AlertDialogContent, {}, () => [
+                      h(AlertDialogHeader, {}, () => [
+                        h(AlertDialogTitle, {}, () => 'Are you absolutely sure?'),
+                        h(
+                          AlertDialogDescription,
+                          {},
+                          () =>
+                            'This action cannot be undone. This will permanently delete the tag.',
+                        ),
+                      ]),
+                      h(AlertDialogFooter, {}, () => [
+                        h(AlertDialogCancel, {}, () => 'Cancel'),
+                        h(
+                          AlertDialogAction,
+                          {
+                            onClick: async () => {
+                              try {
+                                await this.deleteTags(row.original.id)
+                                await this.fetchTags()
+                                toast.success('Tag deleted successfully')
+                                router.push({ name: 'admin.master.tags' })
+                              } catch (error) {
+                                console.error(error)
+                                toast.error('Tag deleted failed')
+                              }
+                            },
+                            class: 'cursor-pointer',
+                          },
+                          () => 'Continue',
+                        ),
+                      ]),
+                    ]),
+                  ],
                 },
-                () => [h(Trash2)],
               ),
             ])
           },
